@@ -24,14 +24,31 @@ int main()
 
         std::cout << "\n>>> ";
         std::cin >> choice;
+        std::cin.ignore();
 
         switch(choice){
 
-        case 1:
-            system("CLS");
-            std::cout << "Here";
-            break;
+        // create new account
+        case 1:{
+            // account properties
+            std::string name;
+            int idNum;
+            int pin;
+            std::string balance;
 
+            std::cout << "ACCOUNT NAME: ";
+            std::getline(std::cin, name);
+
+            std::cout << "NEW PIN: ";
+
+            // MAKE PIN THREE
+            std::cin >> pin;
+            std::cin.ignore();
+
+            system("CLS");
+            std::cout << name << "with a pin of " << pin;
+            break;
+        }
         case 2:
             system("CLS");
             std::cout << "There";
@@ -41,6 +58,7 @@ int main()
         case 7:
             return 0;
         }
+        break;
 
     }
 
