@@ -39,13 +39,26 @@ int main()
             std::cout << "ACCOUNT NAME: ";
             std::getline(std::cin, name);
 
-            std::cout << "NEW PIN: ";
+            // pin loop
+            while(true){
+                std::cout << "NEW PIN: ";
+                std::cin.ignore();
 
-            // MAKE PIN THREE
-            std::cin >> pin;
-            std::cin.ignore();
+                // MAKE PIN THREE
+                std::cin >> pin;
 
-            system("CLS");
+                // make sure pin is three digits
+                if (std::to_string(pin).length() != 3){
+                    std::cout << "Pin number can not be any non-three digit number.";
+                    pin = 0;
+                }
+
+                else{
+                    break;
+                }
+            }
+
+            //system("CLS");
             std::cout << name << "with a pin of " << pin;
             break;
         }
