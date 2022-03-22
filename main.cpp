@@ -3,6 +3,52 @@
 
 //using namespace std;
 
+// account class
+class Account{
+public:
+
+    void createAccount(std::string accountName, int accountPin, int balance){
+        int idNum;
+        // random ID
+        idNum = rand() % 89451 + 17894652;
+
+        // test
+        std::cout << "Account name: " << accountName << " with a pin of " << accountPin << " has $" << balance << " in account." << std::endl;
+        std::cout << "ID: " << idNum;
+
+        // save account
+    }
+
+    // view the details of an existing account
+    void viewDetails(){;}
+
+};
+
+// function to display requested account through name, will pass details to account viewDetails
+void srchAccount(std::string name){
+    ;
+}
+
+/* - id will be randomly generated
+   - turn this to a class
+   - temporarily a function
+*/
+
+/*
+void createAccount(std::string accountName, int accountPin, int balance){
+
+    int idNum;
+    // random ID
+    idNum = rand() % 89451 + 17894652;
+
+    // test
+    std::cout << "Account name: " << accountName << " with a pin of " << accountPin << " has $" << balance << " in account." << std::endl;
+    std::cout << "ID: " << idNum;
+
+    //saveacount
+
+}
+*/
 int main()
 {
 
@@ -32,19 +78,16 @@ int main()
         case 1:{
             // account properties
             std::string name;
-            int idNum;
             int pin;
-            std::string balance;
+            int balance;
 
+            // account name
             std::cout << "ACCOUNT NAME: ";
             std::getline(std::cin, name);
 
             // pin loop
             while(true){
                 std::cout << "NEW PIN: ";
-                std::cin.ignore();
-
-                // MAKE PIN THREE
                 std::cin >> pin;
 
                 // make sure pin is three digits
@@ -59,7 +102,15 @@ int main()
             }
 
             //system("CLS");
-            std::cout << name << "with a pin of " << pin;
+
+            // balance
+            std::cout << "CURRENT BALANCE:";
+            std::cin >> balance;
+
+            Account account;
+
+            account.createAccount(name, pin, balance);
+
             break;
         }
         case 2:
@@ -74,6 +125,5 @@ int main()
         break;
 
     }
-
     return 0;
 }
