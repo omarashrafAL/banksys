@@ -25,7 +25,7 @@ public:
     }
 
     // view the details of an existing account
-    void viewDetails(/*std::string accountName*/){
+    void viewDetails(/*std::string accountName turn to all small*/){
         std::string line;
         std::fstream fileGet;
         bool accountFound = false;
@@ -34,6 +34,7 @@ public:
 
         while(getline(fileGet, line) && !accountFound){
             std::cout << line << std::endl;
+
             // variables for name, id, pin, balance
         }
         fileGet.close();
