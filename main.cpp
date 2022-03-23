@@ -25,7 +25,16 @@ public:
     }
 
     // view the details of an existing account
-    void viewDetails(/*std::string accountName turn to all small*/){
+    void viewDetails(std::string accountName){
+
+        std::string accountNameL = accountName; // variable to turn into lower
+
+        for(int i = 0; i < accountNameL.length(); i++){
+            accountNameL[i] = ::tolower(accountNameL[i]);
+        }
+
+        std::cout << accountNameL;
+
         std::string line;
         std::fstream fileGet;
         bool accountFound = false;
@@ -34,6 +43,27 @@ public:
 
         while(getline(fileGet, line) && !accountFound){
             std::cout << line << std::endl;
+
+            std::string nameF, idF, pinF, balanceF, store; // account name from file
+
+            for(int i = 0; i <= line.length(); i++){
+                store = store + line[i];
+                if(line[i] == '*')/* full name */{
+                    nameF = store;
+                    store = "";
+                }
+                else if(line[i] == ':')/* account ID */{
+                    idF = store;
+                    store = "";
+                }
+                else if(line[i] == '#')/* account pin */{
+                    pinF = store;
+                    store = "";
+                }
+            }
+            balanceF = store;
+
+            std::cout << "HERE: " << nameF << " " << idF << " " << pinF << " " << balanceF << " " << store << std::endl;
 
             // variables for name, id, pin, balance
         }
@@ -103,7 +133,7 @@ int main()
             Account account;
 
             account.createAccount(name, pin, balance);
-            account.viewDetails();
+            account.viewDetails("Simon Gibbs");
 
             break;
         }
