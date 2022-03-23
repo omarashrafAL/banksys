@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <fstream>
 
 //using namespace std;
 
@@ -7,48 +8,39 @@
 class Account{
 public:
 
-    void createAccount(std::string accountName, int accountPin, int balance){
+    void createAccount(std::string accountName, int accountPin, int accountBalance){
         int idNum;
         // random ID
         idNum = rand() % 89451 + 17894652;
 
         // test
-        std::cout << "Account name: " << accountName << " with a pin of " << accountPin << " has $" << balance << " in account." << std::endl;
+        std::cout << "Account name: " << accountName << " with a pin of " << accountPin << " has $" << accountBalance << " in account." << std::endl;
         std::cout << "ID: " << idNum;
 
         // save account
+        std::fstream fileAdd;
+        fileAdd.open("accounts.txt", std::ios_base::app);
+        fileAdd << "\n" << accountName << "*" << idNum << ":" << accountPin << "#" << accountBalance;
+        fileAdd.close();
     }
 
     // view the details of an existing account
-    void viewDetails(){;}
+    void viewDetails(/*std::string accountName*/){
+        std::string line;
+        std::fstream fileGet;
+        bool accountFound = false;
+
+        fileGet.open("accounts.txt");
+
+        while(getline(fileGet, line) && !accountFound){
+            std::cout << line << std::endl;
+            // variables for name, id, pin, balance
+        }
+        fileGet.close();
+    }
 
 };
 
-// function to display requested account through name, will pass details to account viewDetails
-void srchAccount(std::string name){
-    ;
-}
-
-/* - id will be randomly generated
-   - turn this to a class
-   - temporarily a function
-*/
-
-/*
-void createAccount(std::string accountName, int accountPin, int balance){
-
-    int idNum;
-    // random ID
-    idNum = rand() % 89451 + 17894652;
-
-    // test
-    std::cout << "Account name: " << accountName << " with a pin of " << accountPin << " has $" << balance << " in account." << std::endl;
-    std::cout << "ID: " << idNum;
-
-    //saveacount
-
-}
-*/
 int main()
 {
 
@@ -92,7 +84,7 @@ int main()
 
                 // make sure pin is three digits
                 if (std::to_string(pin).length() != 3){
-                    std::cout << "Pin number can not be any non-three digit number.";
+                    std::cout << "Pin number can not be any non-three digit number.\n";
                     pin = 0;
                 }
 
@@ -110,6 +102,7 @@ int main()
             Account account;
 
             account.createAccount(name, pin, balance);
+            account.viewDetails();
 
             break;
         }
