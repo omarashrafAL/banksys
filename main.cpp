@@ -4,10 +4,15 @@
 
 //using namespace std;
 
+/*
+CLEAN THE CODE AND PUT SUITABLE VARIABLE NAMES
+*/
+
 // account class
 class Account{
 public:
 
+    // create a new account
     void createAccount(std::string accountName, int accountPin, int accountBalance){
         int idNum;
         // random ID
@@ -33,40 +38,88 @@ public:
             accountNameL[i] = ::tolower(accountNameL[i]);
         }
 
-        std::cout << accountNameL;
+        //std::cout << accountNameL;
 
         std::string line;
         std::fstream fileGet;
         bool accountFound = false;
+        int skip = false; // variable assigned a value to skip the first blank line in file
 
         fileGet.open("accounts.txt");
 
+
+        std::string stName, stId, stPin, stBalance; // final variables to use
         while(getline(fileGet, line) && !accountFound){
-            std::cout << line << std::endl;
-
+            //std::cout << line << std::endl;
             std::string nameF, idF, pinF, balanceF, store; // account name from file
+            if(!skip){
+                skip = true;
+                }
 
-            for(int i = 0; i <= line.length(); i++){
-                store = store + line[i];
-                if(line[i] == '*')/* full name */{
-                    nameF = store;
-                    store = "";
+            else if(skip){
+
+                for(int i = 0; i <= line.length(); i++){
+                    store = store + line[i];
+                    if(line[i] == '*')/* full name */{
+                        store.pop_back();
+                        nameF = store;
+                        store = "";
+                    }
+                    else if(line[i] == ':')/* account ID */{
+                        store.pop_back();
+                        idF = store;
+                        store = "";
+                    }
+                    else if(line[i] == '#')/* account pin */{
+                        store.pop_back();
+                        pinF = store;
+                        store = "";
+                    }
                 }
-                else if(line[i] == ':')/* account ID */{
-                    idF = store;
-                    store = "";
+                balanceF = store;
+                std::string nameFL = nameF; // variable to turn into all lowercase
+
+                for(int i = 0; i <= nameFL.length(); i++){
+                    nameFL[i] = ::tolower(nameFL[i]);
                 }
-                else if(line[i] == '#')/* account pin */{
-                    pinF = store;
-                    store = "";
+                //std::cout << "The lower: " << nameFL << std::endl;
+                //std::cout << "All lower: " << nameFL << std::endl;
+
+                if(accountNameL == nameFL){
+                    //std::cout << "SUCCESS" << std::endl;
+                    stName = nameF;
+                    stId = idF;
+                    stPin = pinF;
+                    stBalance = balanceF;
+                    break;
                 }
+                else{
+                    //std::cout << "NOT YET" << std::endl;
+                }
+                //std::cout << accountNameL << std::endl;
+                //std::cout << nameF << std::endl;
+
             }
-            balanceF = store;
 
-            std::cout << "HERE: " << nameF << " " << idF << " " << pinF << " " << balanceF << " " << store << std::endl;
-
-            // variables for name, id, pin, balance
         }
+
+
+        //std::cout << "HERE: " << stName << " " << stId << " " << stPin << " " << stBalance << " " << std::endl;
+
+        // we stored all, now to check pin
+        std::string pinEnter;
+        std::cout << "PIN: ";
+        std::cin >> pinEnter;
+
+        // put this in a loop
+        if(pinEnter == stPin){
+            std::cout << "HERE: " << stName << " " << stId << " " << stPin << " " << stBalance << " " << std::endl;
+        }
+        else{
+            std::cout << "Wrong pin" << std::endl;
+        }
+
+
         fileGet.close();
     }
 
@@ -132,8 +185,8 @@ int main()
 
             Account account;
 
-            account.createAccount(name, pin, balance);
-            account.viewDetails("Simon Gibbs");
+            //account.createAccount(name, pin, balance);
+            account.viewDetails("Katness Everdeen");
 
             break;
         }
