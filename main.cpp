@@ -30,15 +30,12 @@ public:
     }
 
     // view the details of an existing account
-    void viewDetails(std::string accountName){
+    void viewDetails(std::string name){
+        std::string nameLower = name; // variable to turn into lower
 
-        std::string accountNameL = accountName; // variable to turn into lower
-
-        for(int i = 0; i < accountNameL.length(); i++){
-            accountNameL[i] = ::tolower(accountNameL[i]);
+        for(int i = 0; i < nameLower.length(); i++){
+            nameLower[i] = ::tolower(nameLower[i]);
         }
-
-        //std::cout << accountNameL;
 
         std::string line;
         std::fstream fileGet;
@@ -47,17 +44,15 @@ public:
 
         fileGet.open("accounts.txt");
 
-
         std::string stName, stId, stPin, stBalance; // final variables to use
+
         while(getline(fileGet, line) && !accountFound){
-            //std::cout << line << std::endl;
-            std::string nameF, idF, pinF, balanceF, store; // account name from file
+            std::string nameF, idF, pinF, balanceF, store; // account variables from file
             if(!skip){
                 skip = true;
                 }
 
             else if(skip){
-
                 for(int i = 0; i <= line.length(); i++){
                     store = store + line[i];
                     if(line[i] == '*')/* full name */{
@@ -76,17 +71,15 @@ public:
                         store = "";
                     }
                 }
+
                 balanceF = store;
-                std::string nameFL = nameF; // variable to turn into all lowercase
+                std::string nameFlower = nameF; // variable to turn into all lowercase
 
-                for(int i = 0; i <= nameFL.length(); i++){
-                    nameFL[i] = ::tolower(nameFL[i]);
+                for(int i = 0; i <= nameFlower.length(); i++){
+                    nameFlower[i] = ::tolower(nameFlower[i]);
                 }
-                //std::cout << "The lower: " << nameFL << std::endl;
-                //std::cout << "All lower: " << nameFL << std::endl;
 
-                if(accountNameL == nameFL){
-                    //std::cout << "SUCCESS" << std::endl;
+                if(nameLower == nameFlower){
                     stName = nameF;
                     stId = idF;
                     stPin = pinF;
@@ -94,17 +87,11 @@ public:
                     break;
                 }
                 else{
-                    //std::cout << "NOT YET" << std::endl;
+                    ;
                 }
-                //std::cout << accountNameL << std::endl;
-                //std::cout << nameF << std::endl;
-
             }
 
         }
-
-
-        //std::cout << "HERE: " << stName << " " << stId << " " << stPin << " " << stBalance << " " << std::endl;
 
         // we stored all, now to check pin
         std::string pinEnter;
@@ -119,7 +106,6 @@ public:
             std::cout << "Wrong pin" << std::endl;
         }
 
-
         fileGet.close();
     }
 
@@ -127,7 +113,6 @@ public:
 
 int main()
 {
-
     std::cout << "\t\t*** Bank system version 1.0.0 by Omar Ashraf ***\n" << std::endl;
 
     // main loop
@@ -187,7 +172,6 @@ int main()
 
             //account.createAccount(name, pin, balance);
             account.viewDetails("Katness Everdeen");
-
             break;
         }
         case 2:
