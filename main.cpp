@@ -29,8 +29,8 @@ public:
         fileAdd.close();
     }
 
-    // view the details of an existing account
-    void viewDetails(std::string name){
+    // view or update the details of an existing account
+    void details(std::string name, char type){
         std::string nameLower = name; // variable to turn into lower
 
         for(int i = 0; i < nameLower.length(); i++){
@@ -84,26 +84,48 @@ public:
                     stId = idF;
                     stPin = pinF;
                     stBalance = balanceF;
-                    break;
+
+                    // we stored all, now to check pin
+                    std::string pinEnter;
+
+                    while(true){
+                        std::cout << "PIN: ";
+                        std::cin >> pinEnter;
+
+                        if(pinEnter == "e"){
+                            break;
+                        }
+                        else{
+                            ;
+                        }
+
+                        // put this in a loop
+                        if(pinEnter == stPin){
+
+                            // enquire about balance
+                            if(type == 'b'){
+                                std::cout << stName << " has a balance of " /*<< stId << " " << stPin << " " <<*/ << "$" << stBalance << std::endl;
+                                break;
+                            }
+
+                            // close/delete account
+                            if(type == 'c'){
+                                line = "";
+                                std::cout << "THIS RAN: " << line << std::endl;
+                                break;
+                            }
+                        }
+                        else{
+                            std::cout << "The pin that has been entered is wrong." << std::endl;
+                        }
+                    }
+
                 }
                 else{
-                    ;
+                    std::cout << "\nThis account does not exist in the database.\n" << std::endl;
                 }
             }
 
-        }
-
-        // we stored all, now to check pin
-        std::string pinEnter;
-        std::cout << "PIN: ";
-        std::cin >> pinEnter;
-
-        // put this in a loop
-        if(pinEnter == stPin){
-            std::cout << "HERE: " << stName << " " << stId << " " << stPin << " " << stBalance << " " << std::endl;
-        }
-        else{
-            std::cout << "Wrong pin" << std::endl;
         }
 
         fileGet.close();
@@ -113,10 +135,9 @@ public:
 
 int main()
 {
-    std::cout << "\t\t*** Bank system version 1.0.0 by Omar Ashraf ***\n" << std::endl;
-
     // main loop
     while(true){
+        std::cout << "\t\t*** Bank system version 1.0.0 by Omar Ashraf ***\n" << std::endl;
 
         // display choices
         std::string choicesList[7] = {"1- NEW ACCOUNT", "2- DEPOSIT AMOUNT",
@@ -169,9 +190,9 @@ int main()
             std::cin >> balance;
 
             Account account;
+            account.createAccount(name, pin, balance);
 
-            //account.createAccount(name, pin, balance);
-            account.viewDetails("Katness Everdeen");
+            //account.viewDetails("Katness Everdeen");
             break;
         }
         case 2:
@@ -179,11 +200,36 @@ int main()
             std::cout << "There";
             break;
 
+        // balance enquiry
+        case 4:{
+
+            while(true){
+                std::string name;
+                std::cout << "- Enquire Balance -" << std::endl;
+                std::cout << "ACCOUNT NAME('e' to exit): ";
+                getline(std::cin, name);
+
+                // exit
+                if(name == "e"){
+                    break;
+                }
+                else{
+                    ;
+                }
+                Account acc;
+                acc.details(name, 'c');
+            }
+            break;
+        }
+
         // exit program
         case 7:
             return 0;
         }
-        break;
+
+        // clear screen before starting a new session
+        system("CLS");
+        //break;
 
     }
     return 0;
