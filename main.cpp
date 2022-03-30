@@ -1,12 +1,66 @@
 #include <iostream>
 #include <stdlib.h>
 #include <fstream>
+#include <cstdio>
 
 //using namespace std;
 
 /*
-CLEAN THE CODE AND PUT SUITABLE VARIABLE NAMES
+
+--BUGS--
+* Entering a large number in balance causes an infinite loop
+
 */
+
+void modifyAccount(std::string oldAcc/*match the same line to detect it instead of an individual word*/,
+                   /*new details >>>*/ std::string newName, std::string sameID, std::string newPin, std::string newBalance){
+    std::string ogLine;
+    std::fstream file, newFile;
+
+    file.open("accounts.txt");
+    newFile.open("accountsNew.txt", std::ios_base::app);
+
+    while(getline(file, ogLine)){
+        if(ogLine == oldAcc){
+            ;
+        }
+
+        else{
+            newFile << ogLine << std::endl;
+        }
+
+    }
+
+    newFile << newName << "*" << sameID << ":" << newPin << "#" << newBalance;
+
+    if(file.is_open()){
+        file.close();
+        //newFile.close();
+        //std::cout << "FILE CLOSED";
+    }
+
+    // now, everything is set to place, empty the original accounts file and dump the new file into it and empty the new one
+
+    // empty the original file
+    std::ofstream originalFile;
+    originalFile.open("accounts.txt");
+    originalFile.close();
+
+    originalFile.open("accounts.txt", std::ios_base::app);
+    // add the new accounts to the original file
+    std::string newLine;
+    while(getline(newFile, newLine)){
+        originalFile << newLine << std::endl;
+    }
+
+    if(originalFile.is_open() && newFile.is_open()){
+        originalFile.close();
+        newFile.close();
+    }
+
+
+
+}
 
 // account class
 class Account{
@@ -47,6 +101,7 @@ public:
         std::string stName, stId, stPin, stBalance; // final variables to use
 
         while(getline(fileGet, line) && !accountFound){
+
             std::string nameF, idF, pinF, balanceF, store; // account variables from file
             if(!skip){
                 skip = true;
@@ -109,10 +164,38 @@ public:
                             }
 
                             // close/delete account
-                            if(type == 'c'){
+                            else if(type == 'c'){
                                 line = "";
                                 std::cout << "THIS RAN: " << line << std::endl;
                                 break;
+                            }
+
+                            // modify an account
+                            else if(type == 'm'){
+
+                                // new details
+                                std::string newName, sameID, newPin, newBalance;
+
+                                std::cin.ignore();
+                                std::cout << "NEW NAME('s' to use the old name): ";
+                                getline(std::cin, newName);
+
+                                if(newName == "s"){
+                                    newName = stName;
+                                }
+
+                                // ID won't be changed
+                                sameID = stId;
+
+                                std::cout << "NEW PIN: ";
+                                std::cin >> newPin;
+                                std::cin.ignore();
+
+                                std::cout << "NEW BALANCE: ";
+                                std::cin >> newBalance;
+
+                                modifyAccount(line, newName, sameID, newPin, newBalance);
+
                             }
                         }
                         else{
@@ -217,7 +300,7 @@ int main()
                     ;
                 }
                 Account acc;
-                acc.details(name, 'c');
+                acc.details(name, 'm');
             }
             break;
         }
