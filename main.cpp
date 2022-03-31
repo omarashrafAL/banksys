@@ -35,7 +35,7 @@ void modifyAccount(std::string oldAcc/*match the same line to detect it instead 
 
     if(file.is_open()){
         file.close();
-        //newFile.close();
+        newFile.close();
         //std::cout << "FILE CLOSED";
     }
 
@@ -47,8 +47,11 @@ void modifyAccount(std::string oldAcc/*match the same line to detect it instead 
     originalFile.close();
 
     originalFile.open("accounts.txt", std::ios_base::app);
+    newFile.open("accountsNew.txt");
+
     // add the new accounts to the original file
     std::string newLine;
+
     while(getline(newFile, newLine)){
         originalFile << newLine << std::endl;
     }
@@ -58,7 +61,12 @@ void modifyAccount(std::string oldAcc/*match the same line to detect it instead 
         newFile.close();
     }
 
+    std::ofstream clearNew;
 
+    // empty the new file
+    clearNew.open("accountsNew.txt");
+    clearNew << "";
+    clearNew.close();
 
 }
 
