@@ -151,7 +151,9 @@ public:
                     // we stored all, now to check pin
                     std::string pinEnter;
 
-                    while(true){
+                    bool endLoop = false;
+                    while(!endLoop){
+
                         std::cout << "PIN: ";
                         std::cin >> pinEnter;
 
@@ -204,6 +206,12 @@ public:
 
                                 modifyAccount(line, newName, sameID, newPin, newBalance);
 
+                            }
+
+                            // balance enquiry
+                            else if(type = 'i'){
+                                std::cout << "Current balance: " << stBalance << std::endl;
+                                endLoop = true;
                             }
                         }
                         else{
@@ -308,7 +316,7 @@ int main()
                     ;
                 }
                 Account acc;
-                acc.details(name, 'm');
+                acc.details(name, 'i');
             }
             break;
         }
